@@ -67,15 +67,15 @@ channels="(1201|1202|1300)" # scan given CIDs, seperate by pipe symbol
 ```
 ### entree-cid
 Some admins chose to have a single channel with low permissions for guests, while only the normal users have the right to move these guests to the real used channels. To be informed, when guests are waiting to be moved you can set the channals cid here. Set to an unused sid, if you dont want to use this feature. This one is part of a regular expression as in 'channels'.
-'''
+```
 entree_CID="(1200)"       # scan one channel for ANY users
 entree_CID="(1200|1201)"  # scan two channels for ANY users
 entree_CID="(99999)"      # disable entree-scan, with unused cid
 ```
 ## Test the script
-use two console windows. In the first you subscribe to the mosquitto-broker to see what script do:
+Use two console windows. In the first you subscribe to the mosquitto-broker to see, what the script is doing:
 
-`mosquitto_sub -h localhos -p 1883 -F '%I \e[92m%t \e[96m%p\e[0m' -t ts3/#`
--F is just for coloring the output, you might need to adjust -t with your choosen topic.
+`mosquitto_sub -h localhost -p 1883 -F '%I \e[92m%t \e[96m%p\e[0m' -t ts3/#`
+-F is just for coloring the output, you might need to adjust -t with your choosen topic and add more options like your credentials for mqtt if needed.
 
-now go to the second console window and start the script `ts3-to-mqtt.sh` and control on the othe console window what happened. If you set your own client id the mybuddies you can controll if all the channels work. Change channel and start he script again. Logout in TS3 and start script again. test it when no others are online and with buddies online and maybe with guests.
+Now go to the second console window and start the script `ts3-to-mqtt.sh` and control on the othe console window what happened. If you set your own client id the mybuddies you can controll if all the channels work. Change channel and start he script again. Logout in TS3 and start script again. test it when no others are online and with buddies online and maybe with guests.
