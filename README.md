@@ -42,4 +42,39 @@ Last command gives you a list of logged in clients (the users). You need to do t
 
 `clientlist`
 
-Once again, copy this list to a text editor an hit Enter after each pipe. Then write down the `client_database_id` of your friends that you want to be informed about when they come online.
+Once again, copy this list to a text editor and hit Enter after each pipe. Then write down the `client_database_id` of your friends that you want to be informed about when they come online.
+
+## Configuration
+
+Now place the script `ts3-to-mqtt.sh` from this repo to /usr/local/bin. Make it executable `sudo chmod +x /usr/local/bin/ts3-to-mqtt.sh`and edit the definitions in the head of that file.
+
+Here are some additional hints about some of the parameters:
+
+### mybuddies
+This is an array, please keep the brackets () arround and do not set in hyphens. Miltiple cid are seperated by spaces. e.g.:
+```
+mybuddies=(1234)
+mybuddies=(1230 1231 1232 4433)
+```
+### channels
+This one will be set as the middle part of a regular expression, so beware of the format, e.g. "(1200|1201)" will combined to the search pattern "cid=(1200|1201)".
+```
+channels=""                 # scan ALL channels
+channels="1234"             # scan only one channel, id 1234
+channels="(1234)"           # scan only one channel, id 1234
+channels="(1201|1202|1300)" # scan given CIDs, seperate by pipe symbol
+```
+### entree-cid
+Some admins chose to have a single channel with low permissions for guests, while only the normal users have the right to move these guests to the real used channels. To be informed, when guests are waiting to be moved you can set the channals cid here. Set to an unused sid, if you dont want to use this feature. This one is part of a regular expression as in 'channels'.
+'''
+entree_CID="(1200)"       # scan one channel for ANY users
+entree_CID="(1200|1201)"  # scan two channels for ANY users
+entree_CID="(99999)"      # disable entree-scan, with unused cid
+```
+## Test the script
+use two console windows. In the first you subscribe to the mosquitto-broker to see what script do:
+
+`mosquitto_sub -h localhos -p 1883 -F '%I \e[92m%t \e[96m%p\e[0m' -t ts3/#`
+-F is just for coloring the output, you might need to adjust -t with your choosen topic.
+
+now go to the second console window and start the script `ts3-to-mqtt.sh` and control on the othe console window what happened. If you set your own client id the mybuddies you can controll if all the channels work. Change channel and start he script again. Logout in TS3 and start script again. test it when no others are online and with buddies online and maybe with guests.
