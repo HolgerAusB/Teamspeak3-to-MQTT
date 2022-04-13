@@ -1,25 +1,29 @@
 #! /bin/bash
 # TeamSpeak3 To Mqtt - version 20220413.1
 #
-# Reads via the telnet port which users (clients) are online and
-# sets a mqtt topic for found buddies
+# Reads via the telnet port which users (clients) are online at
+# a Teamspeak3 server and sets a mqtt topic for found buddies
 #
-# READ the manual at https://github.com/HolgerAusB/TS3-to-MQTT
+# READ the manual at
+# https://github.com/HolgerAusB/Teamspeak3-to-MQTT
 #
 # Script needs to have 'expect' and 'mosquitto-clients' installed
+#################################################################
+# NO WARRANTY - Use at YOUR OWN RISC - I am not a skilled coder !
 #################################################################
 
 # your TeamSpeak3-Server user MUST NOT be server admin credentials
 # please use a 'query user'
 server=localhost	#ts3 server name or ip
-port=10011			#telnet port of ts3 server, standard: 1011
-username=querybot		#query user, NOT admin
-password=secret
-ts3serverid=123			#your client_origin_server_id
+port=10011		#telnet port of ts3 server, standard: 1011
+username=querybot	#query user, NOT admin
+password=secret		#your query users password
+ts3serverid=123		#your client_origin_server_id
 
 # your friends goes here, you should put their names to comment line
-# to not get confused some time later
-# use the client_database_id here, blank seperated array
+# to not get confused some time later.
+# use the client_database_id here, blank seperated array,
+# don't remove brackets!
 # e.g. my buddies: 1234=Tim 1250=Jane ...
 mybuddies=(1234 1250 1666 13456 4001)
 
@@ -33,14 +37,15 @@ channels="(2901|2902|2917)"
 # but can't move themselves to the real channels, put the channels ID here
 # if you want to be informed of unknown guests waiting to get moved.
 # To disable set this to an unused CID like "(99999)"
+# Multiple channels seperated by Pipe: entree_CID="(2900|2901)"
 entree_CID="(2900)"
 entree_topic="ts3/entree"  #mqtt-topic for entrée-channel
 
 # mosquitto command line, myabe you need to add username and password fields
 mosq_param="-h localhost -p 1883"
 # mosquitto base topic and message-text: 
-mosq_topic="ts3"		# cid will added by script: ts3 => ts3/1234
-mosq_online="true"	    # mqtt message when buddy is online
+mosq_topic="ts3"	# cid will added by script: ts3 => ts3/1234
+mosq_online="true"	# mqtt message when buddy is online
 mosq_offline="false"	# mqtt message when buddy is offline
 
 ###############################################################################
