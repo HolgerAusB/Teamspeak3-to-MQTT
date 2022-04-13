@@ -1,0 +1,19 @@
+# check teamspeak buddies regularly
+
+############################################################################
+# Ask your hoster about the minimum interval you are allowed to use the bot!
+############################################################################
+
+# every day from 08:00 to 21:59 every minute on second 4 
+* 8-21	* * *	root	sleep  4; /usr/local/bin/ts3-to-mqtt.sh
+
+# If you are allowed to check more often, you can remove the # to activate
+# a check every 30 seconds at your main gaming/teamspeaking hours
+
+#  additionally, every day from 16:00 to 20:59 every minute on second second 34
+#* 16-20	* * *	root	sleep 34; /usr/local/bin/ts3-to-mqtt.sh
+
+# Sat and Sun every 30 seconds starting from 08:00 on second 34:
+#* 8-11  * * 6-7	root	sleep 34; /usr/local/bin/ts3-to-mqtt.sh
+
+
