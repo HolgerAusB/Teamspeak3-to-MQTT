@@ -51,10 +51,10 @@ Now place the script `ts3-to-mqtt.sh` from this repo to /usr/local/bin. Make it 
 Here are some additional hints about some of the parameters:
 
 ### mybuddies
-This is an array, please keep the brackets () arround and do not set in hyphens. Miltiple cid are seperated by spaces. e.g.:
+This is an array, please keep the brackets () arround and do ___not___ set quotation marks arround the brackets. Multiple cid are seperated by spaces. e.g.:
 ```
-mybuddies=(1234)
-mybuddies=(1230 1231 1232 4433)
+mybuddies=(1234)                  # only one buddy
+mybuddies=(1230 1231 1232 4433)   # multiple buddies
 ```
 ### channels
 This one will be set as the middle part of a regular expression, so beware of the format, e.g. "(1200|1201)" will combined to the search pattern "cid=(1200|1201)".
