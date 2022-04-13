@@ -11,7 +11,8 @@ This script uses the telnet interface of a Teamspeak3 server to determine which 
 * You must be server admin of the Teamspeak server
 * The script is a bash script for Linux. You should have basic knowledge in Linux and know how to use the Linux console.
 * You need `expect` for the query over the telnet protocol. So you might need to install that. On Debian like systems just `apt install expect`
-* To send the result to an MQTT broker, please `apt install mosquitto-clients`. Of course, you can also change the script to perform another action directly here. But remember that the script is executed every x minutes. In my case Homebridge takes care that an action is triggered only at the first detection of presence.
+* You need to have access to a MQTT broker like 'mosquitto' local or somewhere else.
+* To send the result to an MQTT broker, please `apt install mosquitto-clients`. Of course, you can also change the script to perform an other action directly here. But remember that the script is executed every x minutes. In my case Homebridge takes care that an action is triggered only at the first detection of presence.
 
 ## Preparation
 The first thing you need to do is to collect and write down some data by hand. Start your Teamspeak3 client and connect to the server. You must be a server admin. In the menu select Tools>Server Query Login. Choose a name for the query user. After OK the system will tell you your password, write it down.
