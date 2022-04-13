@@ -36,4 +36,10 @@ Next command gives you a list of available Channels.
 
 `channellist`
 
-Copy this list and paste it into a text editor oder text file. After each pipe symbol (`|`)
+Copy this list and paste it into a text editor oder text file. After each pipe symbol `|` press enter to get a readable list, one channel per line. If you want to monitor only some of the channels you need their `cid`.
+
+Last command gives you a list of logged in clients (the users). You need to do this, when yor buddies are online:
+
+`clientlist`
+
+Once again, copy this list to a text editor an hit Enter after each pipe. Then write down the `client_database_id` of your friends that you want to be informed about when they come online.
