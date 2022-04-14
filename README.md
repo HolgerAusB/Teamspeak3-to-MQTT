@@ -76,6 +76,7 @@ entree_CID="(99999)"      # disable entree-scan, with unused cid
 Use two console windows. In the first you subscribe to the mosquitto-broker to see, what the script is doing:
 
 `mosquitto_sub -h localhost -p 1883 -F '%I \e[92m%t \e[96m%p\e[0m' -t ts3/#`
+
 -F is just for coloring the output, you might need to adjust -t with your choosen topic and add more options like your credentials for mqtt if needed.
 
 Now go to the second console window and start the script `ts3-to-mqtt.sh` and control on the other console window what happened. If you set your own client id the mybuddies you can controll if all the channels work. Change channel and start the script again. Logout in TS3 and start script again. test it when no others are online and with buddies online and maybe with guests.
@@ -83,4 +84,4 @@ Now go to the second console window and start the script `ts3-to-mqtt.sh` and co
 ## Set a cron job for automation
 ### **ONCE AGAIN: Beware that you testet everything well (last step) and have permissions from your hoster to run this bot before activating the cron job**
 
-Copy the file `ts3-to-mqtt-cron` to your home-path, then you should check/edit on which hours the bot-script should run. Then you should replace all 'root' in the file by your normal user. There is no need to run the script as root user. After that move this file to /etc/cron.d
+Copy the file `ts3-to-mqtt-cron` to your home-path, then you should check/edit on which hours the bot-script should run. Then you should replace all 'root' in the file by your normal user. There is no need to run the script as root user. After that, move this file to /etc/cron.d
