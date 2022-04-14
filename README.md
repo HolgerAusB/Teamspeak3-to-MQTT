@@ -85,3 +85,7 @@ Now go to the second console window and start the script `ts3-to-mqtt.sh` and co
 ### **ONCE AGAIN: Beware that you testet everything well (last step) and have permissions from your hoster to run this bot before activating the cron job**
 
 Copy the file `ts3-to-mqtt-cron` to your home-path, then you should check/edit on which hours the bot-script should run. Then you should replace all 'root' in the file by your normal user. There is no need to run the script as root user. After that, move this file to /etc/cron.d
+
+## Legal
+* Teamspeak is a trademark of TeamSpeak Systems, Inc.
+* Homekit and Apple are trademarks of Apple Inc.
