@@ -64,13 +64,15 @@ channels=""                 # scan ALL channels
 channels="1234"             # scan only one channel, id 1234
 channels="(1234)"           # scan only one channel, id 1234
 channels="(1201|1202|1300)" # scan given CIDs, seperate by pipe symbol
+channels="99999"            # disable channel-scan, with an unused cid
 ```
 ### entree_cid
 Some admins chose to have a single channel with low permissions for guests, while only the normal users have the right to move these guests to the real used channels. To be informed, when guests are waiting to be moved you can set the channals cid here. Set to an unused sid, if you dont want to use this feature. This one is part of a regular expression as in 'channels'.
 ```
+entree_CID="1200"         # scan one channel for ANY users
 entree_CID="(1200)"       # scan one channel for ANY users
 entree_CID="(1200|1201)"  # scan two channels for ANY users
-entree_CID="(99999)"      # disable entree-scan, with unused cid
+entree_CID="99999"        # disable entree-scan, with an unused cid
 ```
 ## Test the script
 Use two console windows. In the first you subscribe to the mosquitto-broker to see, what the script is doing:
