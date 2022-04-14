@@ -52,8 +52,8 @@ mosq_offline="false"	# mqtt message when buddy is offline
 # don't change anything below that line, except you know, what you are doing! #
 ###############################################################################
 
-chngrep="cid=$channels"
-gstgrep="cid=$entree_CID"
+chngrep="cid=$channels[^0-9]"
+gstgrep="cid=$entree_CID[^0-9]"
 
 # now reading clients=users via telnet by using 'expect'
 VAR=$(
@@ -86,7 +86,7 @@ guestchannels=$(echo $VAR | grep -c -E "$gstgrep")
 # and set their status to the mqtt-topic
 for i in "${mybuddies[@]}"
 do
-    if [[  "$VAR" =~ .*$i.* ]]; then
+    if [[ `echo $memberchannels | grep -c -E "(^|[^0-9])$i([^0-9]|$)"` -gt 0 ]]; then
 	mosquitto_pub $mosq_param -t $mosq_topic/$i -m $mosq_online
     else
 	mosquitto_pub $mosq_param -t $mosq_topic/$i -m $mosq_offline
