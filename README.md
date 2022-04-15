@@ -45,9 +45,13 @@ Last command gives you a list of logged in clients (the users). You need to do t
 
 Once again, copy this list to a text editor and hit Enter after each pipe. Then write down the `client_database_id` of your friends that you want to be informed about when they come online.
 
-## Configuration
+## Installation and configuration
 
-Now place the script `ts3-to-mqtt.sh` from this repo to /usr/local/bin. Make it executable `sudo chmod +x /usr/local/bin/ts3-to-mqtt.sh`and edit the definitions in the head of that file.
+Now place the script `ts3-to-mqtt.sh` from this repo to /usr/local/bin. Make it executable:
+
+`sudo chmod +x /usr/local/bin/ts3-to-mqtt.sh`
+
+Now copy the file `ts3-to-mqtt.conf` from this repo to `/etc/ts3-to-mqtt/` and open this with your editor to enter your configuration data.
 
 Here are some additional hints about some of the parameters:
 
