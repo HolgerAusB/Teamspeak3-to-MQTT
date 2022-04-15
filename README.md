@@ -11,11 +11,11 @@ This script uses the telnet interface of a Teamspeak3 server to determine which 
 * You must be server admin of the Teamspeak server
 * The script is a bash script for Linux. You should have basic knowledge in Linux and know how to use the Linux console.
 * You need `expect` for the query over the telnet protocol. So you might need to install that. On Debian like systems just `apt install expect`
-* You need to have access to a MQTT broker like 'mosquitto' local or somewhere else.
+* You need to have access to a MQTT broker like 'mosquitto', locally or somewhere else.
 * To send the result to an MQTT broker, please `apt install mosquitto-clients`. Of course, you can also change the script to perform an other action directly here. But remember that the script is executed every x minutes. In my case Homebridge takes care that an action is triggered only at the first detection of presence.
 
 ## Preparation
-The first thing you need to do is to collect and write down some data by hand. Start your Teamspeak3 client and connect to the server. You must be a server admin. In the menu select Tools>Server Query Login. Choose a name for the query user. After OK the system will tell you your password, write it down.
+The first thing you need to do, is to collect and write down some data by hand. Start your Teamspeak3 client and connect to the server. You must be a server admin. In the menu select Tools>Server Query Login. Choose a name for the query user. After OK the system will tell you your password, write it down.
 
 Now you have to start a telnet query on the Linux console. The default port for Telnet on Teamspeak servers is 10011. Even if the hoster sets up several virtual client servers on one machine, one telnet port is usually sufficient for all of them. If the port is not correct you have to ask your provider.
 
@@ -37,7 +37,7 @@ Next command gives you a list of available Channels.
 
 `channellist`
 
-Copy this list and paste it into a text editor oder text file. After each pipe symbol `|` press enter to get a readable list, one channel per line. If you want to monitor only some of the channels you need their `cid`.
+Copy this list and paste it into a text editor or text file. After each pipe symbol `|` press enter to get a readable list, one channel per line. If you want to monitor only some of the channels you need their `cid`.
 
 Last command gives you a list of logged in clients (the users). You need to do this, when yor buddies are online:
 
