@@ -62,16 +62,16 @@ mybuddies=(1234)                  # only one buddy
 mybuddies=(1230 1231 1232 4433)   # multiple buddies
 ```
 ### channels
-This one will be set as the middle part of a regular expression, so beware of the format, e.g. "(1200|1201)" will combined to the search pattern "cid=(1200|1201)".
+This one will be set as the middle part of a regular expression, so beware of the format, e.g. "(1200|1201)" will combined to the search pattern "cid=(1200|1201)[^0-9]".
 ```
-channels=""                 # scan ALL channels
+channels="[0-9]*"           # scan ALL channels
 channels="1234"             # scan only one channel, id 1234
 channels="(1234)"           # scan only one channel, id 1234
 channels="(1201|1202|1300)" # scan given CIDs, seperate by pipe symbol
 channels="99999"            # disable channel-scan, with an unused cid
 ```
 ### entree_cid
-Some admins chose to have a single channel with low permissions for guests, while only the normal users have the right to move these guests to the real used channels. To be informed, when guests are waiting to be moved you can set the channals cid here. Set to an unused sid, if you dont want to use this feature. This one is part of a regular expression as in 'channels'.
+Some admins chose to have a single channel with low permissions for guests, while only the normal users have the right to move these guests to the real used channels. To be informed, when guests are waiting to be moved you can set the channals cid here. Set to an unused cid, if you dont want to use this feature. This one is part of a regular expression as in 'channels'.
 ```
 entree_CID="1200"         # scan one channel for ANY users
 entree_CID="(1200)"       # scan one channel for ANY users
@@ -85,7 +85,9 @@ Use two console windows. In the first you subscribe to the mosquitto-broker to s
 
 -F is just for coloring the output, you might need to adjust -t with your choosen topic and add more options like your credentials for mqtt if needed.
 
-Now go to the second console window and start the script `ts3-to-mqtt.sh` and control on the other console window what happened. If you set your own client id the mybuddies you can controll if all the channels work. Change channel and start the script again. Logout in TS3 and start script again. test it when no others are online and with buddies online and maybe with guests.
+Start your Teamspeak client and log in to your server.
+
+Now go to the second console window and start the script `ts3-to-mqtt.sh` and control on the other console window what happened. If you set your own client id into mybuddies, you can controll if all the channels work as intended. Change channel and start the script again. Logout in TS3 and start script again. test it when no others are online and with buddies online and maybe with guests.
 
 ## Set a cron job for automation
 ### **ONCE AGAIN: Beware that you testet everything well (last step) and have permissions from your hoster to run this bot before activating the cron job**
