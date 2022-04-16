@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# TeamSpeak3 To Mqtt - version 0.1.0
+# TeamSpeak3 To Mqtt - version 0.1.1
 #
 # Reads via the telnet port which users (clients) are online at
 # a Teamspeak3 server and sets a mqtt topic for found buddies
@@ -43,30 +43,22 @@ gstgrep="cid=$entree_CID[^0-9]"
 # now reading clients=users via telnet by using 'expect'
 VAR=$(
     expect -c "
-    log_user 0
-    set timeout 20
-        spawn telnet $server $port
-        expect \"command.\"
-    sleep .1;
-        send \"login $username $password\\r\";
-    sleep .1;
-    send \"use $ts3serverid\\r\";
-    sleep .1;
-    send \"clientlist\\r\";
-    sleep .1;
-    log_user 1;
-    expect -re \"(clid.*)\"
-    sleep .1;
-    set clidstring \$expect_out(1,string);
-    sleep .1;
-    send_user \"eot\";
-    sleep .1
-        " | grep clid | sed 's/\\p/_/g' | sed 's/|/\n/g' | grep -E "client_type=0"
-    )
+        set timeout 20
+	spawn telnet $server $port
+	expect \"command.\"
+	sleep .1;
+	send \"login $username $password\\r\";
+	sleep .1;
+	send \"use $ts3serverid\\r\";
+	sleep .1;
+	send \"clientlist\\r\";
+	sleep .1;
+	expect -re \"(clid.*)\"
+    " | grep clid | sed 's/\\p/_/g' | sed 's/|/\n/g' | grep -E "client_type=0"
+)
 
 memberchannels=$(echo $VAR | grep -E "$chngrep"  | grep -o -E 'client_database_id=[0-9]+' | grep -o -E '[0-9]+')
 guestchannels=$(echo $VAR | grep -c -E "$gstgrep")
-
 
 # check all defined buddies if they are in one of the watched channels
 # and set their status to the mqtt-topic
