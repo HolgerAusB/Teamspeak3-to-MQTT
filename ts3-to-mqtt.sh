@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# TeamSpeak3 To Mqtt - version 0.1.1
+# TeamSpeak3 To Mqtt - version 0.1.2
 #
 # Reads via the telnet port which users (clients) are online at
 # a Teamspeak3 server and sets a mqtt topic for found buddies
@@ -40,25 +40,66 @@ fi
 chngrep="cid=$channels[^0-9]"
 gstgrep="cid=$entree_CID[^0-9]"
 
-# now reading clients=users via telnet by using 'expect'
+# connect to telnet port and read data
 VAR=$(
-    expect -c "
-        set timeout 20
-	spawn telnet $server $port
-	expect \"command.\"
-	sleep .1;
-	send \"login $username $password\\r\";
-	sleep .1;
-	send \"use $ts3serverid\\r\";
-	sleep .1;
-	send \"clientlist\\r\";
-	sleep .1;
-	expect -re \"(clid.*)\"
-    " | grep clid | sed 's/\\p/_/g' | sed 's/|/\n/g' | grep -E "client_type=0"
+    expect - $server $port $username $password $ts3serverid "$ts3welcome"<<'ENDEXPECT'
+	log_user 0
+        set timeout 3
+	set SERVER  [lindex $argv 0]
+	set PORT    [lindex $argv 1]
+	set USER    [lindex $argv 2]
+	set PASS    [lindex $argv 3]
+	set SID     [lindex $argv 4]
+	set WELC    [lindex $argv 5]
+	spawn telnet $SERVER $PORT
+	expect {
+		eof {
+		    send_user "ts3-to-mqtt: Teamspeak server is offline"
+		    }
+		"$WELC"
+		    {
+		    send "login $USER $PASS\r"
+		    sleep .1
+		    send "use $SID\r"
+		    sleep .1
+		    send "clientlist\r"
+		    sleep .1
+		    expect -re "(clid.*)"
+		    send_user $expect_out(1,string)
+		    }
+		timeout {
+		    expect *
+		    send_user "ts3-to-mqtt: Teamspeak server connection timeout\r"
+		    send_user "Maybe the welcome text from server does not match?\r\r"
+		    send_user "Search patern from config, ts3welcome=\r$WELC\r\r"
+		    send_user "Welcome message from server:\r$expect_out(buffer)"
+		    }
+		}
+ENDEXPECT
 )
 
-memberchannels=$(echo $VAR | grep -E "$chngrep"  | grep -o -E 'client_database_id=[0-9]+' | grep -o -E '[0-9]+')
-guestchannels=$(echo $VAR | grep -c -E "$gstgrep")
+
+if [[ "$VAR" =~ "ts3-to-mqtt: Teamspeak server is offline" ]]; then
+    mosquitto_pub $mosq_param -t $ts3active_topic -m $mosq_offline
+    exit
+fi
+
+if  [[ "$VAR" =~ "ts3-to-mqtt: Teamspeak server connection timeout" ]]; then
+    mosquitto_pub $mosq_param -t $ts3active_topic -m $mosq_online
+    mosquitto_pub $mosq_param -t $ts3fault_topic -m $mosq_online   # true if fault/timeout
+    echo "$VAR" # will send mail to user, if run by cron
+    exit
+fi
+
+# else set good topics:
+    mosquitto_pub $mosq_param -t $ts3active_topic -m $mosq_online
+    mosquitto_pub $mosq_param -t $ts3fault_topic -m $mosq_offline   # true if fault/timeout
+
+
+channellist=$(echo $VAR | tr "\r\n" "\n" | grep clid | sed 's/\\p/_/g' | sed 's/|/\n/g' | grep -E "client_type=0")
+
+memberchannels=$(echo $channellist | grep -E "$chngrep"  | grep -o -E 'client_database_id=[0-9]+' | grep -o -E '[0-9]+')
+guestchannels=$(echo $channellist | grep -c -E "$gstgrep")
 
 # check all defined buddies if they are in one of the watched channels
 # and set their status to the mqtt-topic
