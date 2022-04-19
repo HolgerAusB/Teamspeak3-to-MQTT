@@ -15,11 +15,22 @@ This script uses the telnet interface of a Teamspeak3 server to determine which 
 * To send the result to an MQTT broker, please `apt install mosquitto-clients`. Of course, you can also change the script to perform an other action directly here. But remember that the script is executed every x minutes. In my case Homebridge takes care that an action is triggered only at the first detection of presence.
 
 ## Preparation
-The first thing you need to do, is to collect and write down some data by hand. Start your Teamspeak3 client and connect to the server. You must be a server admin. In the menu select Tools>Server Query Login. Choose a name for the query user. After OK the system will tell you your password, write it down.
+The first thing you need to do, is to collect and write down some data by hand. I'd suggest using a ssh console from a workstation, so you can copy&paste some things. Start your Teamspeak3 client and connect to the server. You must be a server admin. In the menu select Tools>Server Query Login. Choose a name for the query user. After OK the system will tell you your password, write it down.
 
 Now you have to start a telnet query on the Linux console. The default port for Telnet on Teamspeak servers is 10011. Even if the hoster sets up several virtual client servers on one machine, one telnet port is usually sufficient for all of them. If the port is not correct you have to ask your provider.
 
 `telnet servername-or-ip 10011`
+Your will get a welcome message. You should copy this text and save in your text editor on your desktop pc. We'll need (parts of) this to detect if this is our ts3 server. Should look something lieke this:
+
+```
+Trying 138.201.90.135...
+Connected to localhost.
+Escape character is '^]'.
+TS3
+Welcome to the TeamSpeak 3 ServerQuery interface, type "help" for a list of commands and "help <command>" for information on a specific command.
+```
+
+Later I will use the first part of the last line as a pattern in `ts3welcome="Welcome to the TeamSpeak 3 ServerQuery interface"`
 
 After the welcome message you must provide your query user credentials:
 
