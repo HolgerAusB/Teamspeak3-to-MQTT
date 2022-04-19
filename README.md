@@ -20,7 +20,7 @@ The first thing you need to do, is to collect and write down some data by hand. 
 Now you have to start a telnet query on the Linux console. The default port for Telnet on Teamspeak servers is 10011. Even if the hoster sets up several virtual client servers on one machine, one telnet port is usually sufficient for all of them. If the port is not correct you have to ask your provider.
 
 `telnet servername-or-ip 10011`
-Your will get a welcome message. You should copy this text and save in your text editor on your desktop pc. We'll need (parts of) this to detect if this is our ts3 server. Should look something lieke this:
+Your will get a welcome message. You should copy this text and save in your text editor on your desktop pc. We'll need (parts of) this to detect if this is our ts3 server. Should look something like this:
 
 ```
 Trying 138.201.90.135...
