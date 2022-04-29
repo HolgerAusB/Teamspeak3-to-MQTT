@@ -23,7 +23,7 @@ Now you have to start a telnet query on the Linux console. The default port for 
 Your will get a welcome message. You should copy this text and save in your text editor on your desktop pc. We'll need (parts of) this to detect if this is our ts3 server. Should look something like this:
 
 ```
-Trying 138.201.90.135...
+Trying 123.123.xxx.xxx...
 Connected to localhost.
 Escape character is '^]'.
 TS3
